@@ -5,6 +5,8 @@ const CaretakerSchema = new mongoose.Schema({
   phone: { type: String, required: true },
   location_city_id: { type: mongoose.Schema.Types.ObjectId, ref: 'City', required: true },
   experience_years: { type: Number, default: 0 },
+  aadhaar_image: { type: String },
+  aadhaar_number: { type: String }, //store last 4 digits only
   background_verified: { type: Boolean, default: false },
   rating: { type: Number, default: 0 },
   isDeleted: { type: Boolean, default: false }
