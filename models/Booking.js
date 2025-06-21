@@ -6,7 +6,8 @@ const BookingSchema = new mongoose.Schema({
   service_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Service', required: true },
   date: { type: Date, required: true },
   status: { type: String, enum: ['pending', 'confirmed', 'completed', 'cancelled'], default: 'pending' },
-  feedback: { type: String }
+  feedback: { type: String },
+  isDeleted: { type: Boolean, default: false }
 });
 
 export default mongoose.model('Booking', BookingSchema);
