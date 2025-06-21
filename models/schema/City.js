@@ -1,5 +1,4 @@
-import mongoose from 'mongoose';
-
+const mongoose = require('mongoose');
 const CitySchema = new mongoose.Schema({
   name: { type: String, required: true },
   state: { type: String, required: true },
@@ -7,4 +6,4 @@ const CitySchema = new mongoose.Schema({
   isDeleted: { type: Boolean, default: false }
 });
 
-export default mongoose.model('City', CitySchema);
+module.exports = mongoose.model('City', CitySchema);

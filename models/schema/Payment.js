@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 const PaymentSchema = new mongoose.Schema({
   booking_id: {
     type: mongoose.Schema.Types.ObjectId,
@@ -52,4 +52,4 @@ const PaymentSchema = new mongoose.Schema({
   isDeleted: { type: Boolean, default: false }
 });
 
-export default mongoose.model('Payment', PaymentSchema);
+module.exports = mongoose.model('Payment', PaymentSchema);

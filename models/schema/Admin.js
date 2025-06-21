@@ -1,5 +1,4 @@
-import mongoose from 'mongoose';
-
+const mongoose = require('mongoose');
 const AdminSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
@@ -8,4 +7,4 @@ const AdminSchema = new mongoose.Schema({
   isDeleted: { type: Boolean, default: false }
 });
 
-export default mongoose.model('Admin', AdminSchema);
+module.exports = mongoose.model('Admin', AdminSchema);

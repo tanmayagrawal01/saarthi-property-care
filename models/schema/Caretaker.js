@@ -1,5 +1,4 @@
-import mongoose from 'mongoose';
-
+const mongoose = require('mongoose');
 const CaretakerSchema = new mongoose.Schema({
   name: { type: String, required: true },
   phone: { type: String, required: true },
@@ -12,4 +11,4 @@ const CaretakerSchema = new mongoose.Schema({
   isDeleted: { type: Boolean, default: false }
 });
 
-export default mongoose.model('Caretaker', CaretakerSchema);
+module.exports = mongoose.model('Caretaker', CaretakerSchema);

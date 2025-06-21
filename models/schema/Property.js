@@ -1,5 +1,4 @@
-import mongoose from 'mongoose';
-
+const mongoose = require('mongoose');
 const PropertySchema = new mongoose.Schema({
   name: { type: String, required: true },
   address: { type: String, required: true },
@@ -9,4 +8,4 @@ const PropertySchema = new mongoose.Schema({
   isDeleted: { type: Boolean, default: false }
 });
 
-export default mongoose.model('Property', PropertySchema);
+module.exports = mongoose.model('Property', PropertySchema);
