@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const BookingSchema = new mongoose.Schema(
   {
     property_id: {
@@ -42,12 +43,18 @@ const BookingSchema = new mongoose.Schema(
     },
     payment_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Payment',
-      required: false
+      ref: 'Payment'
     },
     feedback: {
-      type: String,
-      maxlength: 1000
+      comment: {
+        type: String,
+        maxlength: 1000
+      },
+      rating: {
+        type: Number,
+        min: 1,
+        max: 5
+      }
     },
     isDeleted: {
       type: Boolean,
@@ -55,7 +62,16 @@ const BookingSchema = new mongoose.Schema(
     }
   },
   {
-    timestamps: true
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
   }
 );
+BookingSchema.pre('save', function (next) {
+  if (this.payment_status === 'paid' && this.status === 'pending') {
+    this.status = 'confirmed';
+  }
+  next();
+});
+
 module.exports = mongoose.model('Booking', BookingSchema);
