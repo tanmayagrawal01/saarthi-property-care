@@ -8,8 +8,8 @@ const User=require("./schema/User");
 const Payment=require("./schema/Payment");
 const Service=require("./schema/Service");
 const Admin=require("./schema/Admin");
+const Cancellation=require("./schema/cancellation");
 const mongoose= require('mongoose');
-
 main().then(() => {
   console.log("Connected to MongoDB");
 })
