@@ -52,7 +52,7 @@ const sampleAdmins = [
   },
    {
     name: "Rahul Pundhir",
-    email: "",
+    email: "rahulpundhir@gmail.com",
     password_hash: "$2b$10$abc456hashedpasswordexample",
     role: "superadmin",
     profile_photo_url: "",
