@@ -65,7 +65,13 @@ const UserSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'City'
     },
-
+    slug: {
+      type: String,
+      unique: true
+    },
+    device_token: {
+      type: String
+    },
     isDeleted: {
       type: Boolean,
       default: false
@@ -76,4 +82,17 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
+UserSchema.pre('save', function (next) {
+  if (this.isModified('name')) {
+    const baseSlug = this.name.toLowerCase().replace(/\s+/g, '-');
+    this.slug = `${baseSlug}-${Date.now().toString().slice(-4)}`;
+  }
+  next();
+});
+
+UserSchema.index({ email: 1 });
+UserSchema.index({ phone: 1 });
+UserSchema.index({ isDeleted: 1 });
+
 module.exports = mongoose.model('User', UserSchema);
+
