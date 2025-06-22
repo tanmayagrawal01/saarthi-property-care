@@ -36,7 +36,14 @@ const PaymentSchema = new mongoose.Schema({
     default: 'UPI'
   },
   transaction_id: {
-    type: String
+  type: String,
+  trim: true,
+  unique: true, // optional but recommended
+  sparse: true  // useful if some payments (like COD) may not have it
+},
+  isCOD: {
+    type: Boolean,
+    default: false
   },
   payment_gateway: {
     type: String,
@@ -49,10 +56,13 @@ const PaymentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.Mixed // Full raw response from Razorpay or other PG
   },
   refund_info: {
-    amount: { type: Number, min: 0 },
-    refunded_at: { type: Date },
-    reason: { type: String }
-  },
+  amount: { type: Number, min: 0 },
+  refunded_at: { type: Date },
+  reason: { type: String },
+  refund_id: { type: String }, // from Razorpay or PG
+  status: { type: String, enum: ['initiated', 'processed', 'failed'] }
+}
+,
   created_by: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
@@ -68,5 +78,11 @@ const PaymentSchema = new mongoose.Schema({
 }, {
   timestamps: true
 });
+
+PaymentSchema.index({ booking_id: 1 });
+PaymentSchema.index({ caretaker_id: 1 });
+PaymentSchema.index({ user_id: 1 });
+PaymentSchema.index({ status: 1 });
+PaymentSchema.index({ createdAt: -1 });
 
 module.exports = mongoose.model('Payment', PaymentSchema);
