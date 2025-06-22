@@ -23,6 +23,10 @@ const ServiceSchema = new mongoose.Schema({
   icon_url: {
     type: String
   },
+  slug: {
+    type: String,
+    unique: true
+  },
   active: {
     type: Boolean,
     default: true
@@ -35,4 +39,14 @@ const ServiceSchema = new mongoose.Schema({
   timestamps: true
 });
 
+// Auto-generate slug from name
+ServiceSchema.pre('save', function (next) {
+  if (this.isModified('name')) {
+    this.slug = this.name.toLowerCase().replace(/\s+/g, '-');
+  }
+  next();
+});
+
+ServiceSchema.index({ name: 1 });
+ServiceSchema.index({ active: 1 });
 module.exports = mongoose.model('Service', ServiceSchema);
