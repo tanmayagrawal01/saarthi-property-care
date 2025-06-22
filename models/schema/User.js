@@ -90,7 +90,6 @@ UserSchema.pre('save', function (next) {
   next();
 });
 
-UserSchema.index({ email: 1 });
 UserSchema.index({ phone: 1 });
 UserSchema.index({ isDeleted: 1 });
 

@@ -69,7 +69,6 @@ const AdminSchema = new mongoose.Schema({
   timestamps: true
 });
 
-AdminSchema.index({ email: 1 }, { unique: true });
 AdminSchema.index({ role: 1 });
 
 module.exports = mongoose.model('Admin', AdminSchema);
