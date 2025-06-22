@@ -28,12 +28,15 @@ const BookingSchema = new mongoose.Schema(
     },
     start_time: {
       type: String,
-      required: false // Format: HH:mm
+      required: true,
+      match: /^([01]\d|2[0-3]):([0-5]\d)$/ // "HH:mm" 24-hr format
     },
     end_time: {
       type: String,
-      required: false
-    },
+      required: true,
+      match: /^([01]\d|2[0-3]):([0-5]\d)$/
+    }
+    ,
     amount: {
       type: Number,
       required: true,
@@ -100,7 +103,8 @@ const BookingSchema = new mongoose.Schema(
     status_log: [
       {
         status: { type: String },
-        changed_at: { type: Date, default: Date.now }
+        changed_at: { type: Date, default: Date.now },
+        changed_by: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
       }
     ]
   },
@@ -134,5 +138,11 @@ BookingSchema.pre('save', function (next) {
 
   next();
 });
+
+BookingSchema.index({ user_id: 1 });
+BookingSchema.index({ caretaker_id: 1 });
+BookingSchema.index({ date: 1 });
+BookingSchema.index({ isDeleted: 1 });
+BookingSchema.index({ status: 1 });
 
 module.exports = mongoose.model('Booking', BookingSchema);
