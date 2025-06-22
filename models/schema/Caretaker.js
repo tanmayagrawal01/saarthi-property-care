@@ -66,4 +66,9 @@ const CaretakerSchema = new mongoose.Schema(
   }
 );
 
+CaretakerSchema.index({ phone: 1 }, { unique: true });
+CaretakerSchema.index({ location_city_id: 1 });
+CaretakerSchema.index({ is_available: 1 });
+CaretakerSchema.index({ background_verified: 1 });
+
 module.exports = mongoose.model('Caretaker', CaretakerSchema);
