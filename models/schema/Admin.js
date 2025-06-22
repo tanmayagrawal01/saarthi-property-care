@@ -11,7 +11,8 @@ const AdminSchema = new mongoose.Schema({
     required: true,
     unique: true,
     lowercase: true,
-    trim: true
+    trim: true,
+    match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ // basic email validation
   },
   password_hash: {
     type: String,
@@ -25,19 +26,50 @@ const AdminSchema = new mongoose.Schema({
   profile_photo_url: {
     type: String
   },
+
+  last_login_at: {
+    type: Date
+  },
+  login_attempts: {
+    type: Number,
+    default: 0
+  },
+
+  created_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Admin'
+  },
+  updated_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Admin'
+  },
+
+  status_log: [
+    {
+      role: {
+        type: String,
+        enum: ['superadmin', 'moderator']
+      },
+      changed_at: {
+        type: Date,
+        default: Date.now
+      },
+      changed_by: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Admin'
+      }
+    }
+  ],
+
   isDeleted: {
     type: Boolean,
     default: false
-  },
-  status_log: [
-    {
-      role: { type: String },
-      changed_at: { type: Date, default: Date.now },
-      changed_by: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin' }
-    }
-  ]
+  }
 }, {
   timestamps: true
 });
+
+AdminSchema.index({ email: 1 }, { unique: true });
+AdminSchema.index({ role: 1 });
 
 module.exports = mongoose.model('Admin', AdminSchema);
