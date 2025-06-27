@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const ServiceSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -48,5 +47,6 @@ ServiceSchema.pre('save', function (next) {
 });
 
 ServiceSchema.index({ name: 1 });
+ServiceSchema.index({ isDeleted: 1 });
 ServiceSchema.index({ active: 1 });
 module.exports = mongoose.model('Service', ServiceSchema);

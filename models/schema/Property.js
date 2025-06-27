@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const slugify = require('slugify');
 const PropertySchema = new mongoose.Schema(
   {
     name: {
@@ -36,6 +36,10 @@ const PropertySchema = new mongoose.Schema(
       type: String,
       maxlength: 1000
     },
+    slug: {
+      type: String
+    }
+    ,
     isDeleted: {
       type: Boolean,
       default: false
@@ -45,6 +49,18 @@ const PropertySchema = new mongoose.Schema(
     timestamps: true
   }
 );
+
+PropertySchema.pre('save', function (next) {
+  if (this.isModified('name')) {
+    const nameSlug = slugify(this.name, { lower: true });
+    const uniqueSuffix = Date.now().toString().slice(-4);
+    this.slug = `${nameSlug}-${uniqueSuffix}`;
+  }
+  next();
+});
+
+PropertySchema.index({ slug: 1 }, { unique: true, sparse: true });
 PropertySchema.index({ user_id: 1 });
 PropertySchema.index({ city_id: 1 });
+PropertySchema.index({ isDeleted: 1 });
 module.exports = mongoose.model('Property', PropertySchema);

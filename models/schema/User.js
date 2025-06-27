@@ -25,7 +25,7 @@ const UserSchema = new mongoose.Schema(
 
     user_type: {
       type: String,
-      enum: ['property_owner', 'admin', 'caretaker'],
+      enum: ['property_owner', 'caretaker'],
       default: 'property_owner',
       required: true
     },
@@ -94,4 +94,3 @@ UserSchema.index({ phone: 1 });
 UserSchema.index({ isDeleted: 1 });
 
 module.exports = mongoose.model('User', UserSchema);
-

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const slugify = require('slugify');
 const CancellationSchema = new mongoose.Schema({
     booking_id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -40,7 +40,10 @@ const CancellationSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-
+    slug: {
+        type: String,
+        unique: true
+    },
     created_by: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin'
@@ -56,8 +59,20 @@ const CancellationSchema = new mongoose.Schema({
     }
 );
 
+
+CancellationSchema.pre('save', function (next) {
+  if (!this.slug && this.booking_id && this.role) {
+    const rolePart = slugify(this.role, { lower: true });
+    const timePart = Date.now().toString().slice(-5); // last 5 digits for uniqueness
+    this.slug = `${rolePart}-cancel-${timePart}`;
+  }
+  next();
+});
+
+
 CancellationSchema.index({ booking_id: 1 });
 CancellationSchema.index({ cancelled_by: 1 });
 CancellationSchema.index({ refund_status: 1 });
+CancellationSchema.index({ isDeleted: 1 });
 
 module.exports = mongoose.model('Cancellation', CancellationSchema);

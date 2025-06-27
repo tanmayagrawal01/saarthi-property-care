@@ -24,7 +24,9 @@ const AdminSchema = new mongoose.Schema({
     default: 'moderator'
   },
   profile_photo_url: {
-    type: String
+    type: String,
+    default: "https://th.bing.com/th/id/OIP.3U017h9GAnFM3aRkV-WLiwHaHa?w=191&h=190&c=7&r=0&o=7&pid=1.7&rm=3",
+    set: (v) => v === "" ? "https://th.bing.com/th/id/OIP.3U017h9GAnFM3aRkV-WLiwHaHa?w=191&h=190&c=7&r=0&o=7&pid=1.7&rm=3" :v
   },
 
   last_login_at: {
@@ -70,5 +72,6 @@ const AdminSchema = new mongoose.Schema({
 });
 
 AdminSchema.index({ role: 1 });
+AdminSchema.index({ isDeleted: 1 });
 
 module.exports = mongoose.model('Admin', AdminSchema);

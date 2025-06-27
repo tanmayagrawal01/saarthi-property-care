@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 const initData = require("./sampleCities.js");
 const City= require("../models/schema/City.js");
-
-
 main()
   .then(() => {
     console.log("Connected to DB");
@@ -17,7 +15,11 @@ async function main() {
 
 const initDB = async () => {
   await City.deleteMany({});
-  await City.insertMany(initData.data);
+  await City.insertMany(initData.data).then(res=>{
+    console.log(res);
+  }).catch(err =>{
+    console.log(err);
+  });
   console.log("data was initialized");
 };
 
