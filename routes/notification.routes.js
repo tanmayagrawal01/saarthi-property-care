@@ -21,7 +21,7 @@ router.patch('/read/all', auth.authenticate, NotificationController.markAllAsRea
 // Admin: Get all notifications (with filters)
 router.get('/admin/all', auth.authenticate, auth.verifyAdmin, NotificationController.getAllNotifications);
 
-// ✅ Match the export
+// Match the export
 router.delete('/:id', auth.verifyAdmin, NotificationController.softDeleteNotification);
 
 module.exports = router;

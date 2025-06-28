@@ -3,22 +3,22 @@ const router = express.Router();
 const PropertyController = require('../controllers/property.controller');
 const auth = require('../middlewares/auth.middleware');
 
-// 🔐 All routes below require authentication
+// All routes below require authentication
 router.use(auth.authenticate);
 
-// ➕ Create property (Only Property Owner)
+// Create property (Only Property Owner)
 router.post('/', auth.verifyOwner, PropertyController.createProperty);
 
-// 🔄 Update property
+// Update property
 router.put('/:id', auth.verifyOwner, PropertyController.updateProperty);
 
-// ❌ Soft delete property
+// Soft delete property
 router.delete('/:id', auth.verifyOwner, PropertyController.deleteProperty);
 
-// 🔍 Get property by ID
+// Get property by ID
 router.get('/:id', PropertyController.getPropertyById);
 
-// 📄 Get all properties owned by current user
+// Get all properties owned by current user
 router.get('/user/all', auth.verifyOwner, PropertyController.getPropertiesByUser);
 
 // 🌆 Get all properties by city
