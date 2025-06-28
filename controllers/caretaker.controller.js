@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'secret_token';
 
-// ✅ Register caretaker
+// Register caretaker
 exports.registerCaretaker = async (req, res) => {
   try {
     const {
@@ -79,7 +79,7 @@ exports.loginCaretaker = async (req, res) => {
   }
 };
 
-// ✅ Get own profile
+// Get own profile
 exports.getMyProfile = async (req, res) => {
   try {
     const caretaker = await Caretaker.findById(req.user._id);
@@ -92,7 +92,7 @@ exports.getMyProfile = async (req, res) => {
   }
 };
 
-// ✅ Update availability (caretaker only)
+// Update availability (caretaker only)
 exports.updateAvailability = async (req, res) => {
   try {
     const { is_available } = req.body;

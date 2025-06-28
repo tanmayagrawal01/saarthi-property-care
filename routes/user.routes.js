@@ -7,7 +7,7 @@ const auth = require('../middlewares/auth.middleware');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'default_secret_key';
 
-// ✅ User Registration
+// User Registration
 router.post('/register', async (req, res) => {
   try {
     const { name, email, phone, password, user_type } = req.body;

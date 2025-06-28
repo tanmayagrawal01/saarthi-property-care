@@ -2,7 +2,7 @@ const Admin = require('../models/schema/Admin');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'admin_secret';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // Register a new admin (Superadmin only)
 exports.registerAdmin = async (req, res) => {
@@ -36,7 +36,7 @@ exports.registerAdmin = async (req, res) => {
   }
 };
 
-// ✅ Admin login
+// Admin login
 exports.loginAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -69,7 +69,7 @@ exports.loginAdmin = async (req, res) => {
   }
 };
 
-// ✅ Get logged-in admin's profile
+// Get logged-in admin's profile
 exports.getMyProfile = async (req, res) => {
   try {
     const admin = await Admin.findById(req.user._id).select('-password_hash');
@@ -82,7 +82,7 @@ exports.getMyProfile = async (req, res) => {
   }
 };
 
-// ✅ Superadmin: get all admins
+// Superadmin: get all admins
 exports.getAllAdmins = async (req, res) => {
   try {
     const admins = await Admin.find({ isDeleted: false }).select('-password_hash');
@@ -92,7 +92,7 @@ exports.getAllAdmins = async (req, res) => {
   }
 };
 
-// ✅ Superadmin: change admin role
+// Superadmin: change admin role
 exports.changeAdminRole = async (req, res) => {
   try {
     const { id } = req.params;
@@ -121,7 +121,7 @@ exports.changeAdminRole = async (req, res) => {
   }
 };
 
-// ✅ Superadmin: soft delete admin
+// Superadmin: soft delete admin
 exports.softDeleteAdmin = async (req, res) => {
   try {
     const { id } = req.params;
@@ -135,13 +135,13 @@ exports.softDeleteAdmin = async (req, res) => {
     admin.updated_by = req.user._id;
     await admin.save();
 
-    res.json({ message: 'Admin soft deleted successfully' });
+    res.json({ message: 'Admin deleted successfully' });
   } catch (err) {
     res.status(500).json({ message: 'Delete failed', error: err.message });
   }
 };
 
-// ✅ Superadmin: restore deleted admin
+// Superadmin: restore deleted admin
 exports.restoreAdmin = async (req, res) => {
   try {
     const { id } = req.params;

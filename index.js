@@ -5,7 +5,6 @@ const mongoose = require("mongoose");
 const path = require("path");
 const connectDB = require("./config/db");
 
-// Models (just importing them is okay if needed for seeders/migrations)
 const City = require("./models/schema/City");
 const Caretaker = require("./models/schema/Caretaker");
 const Property = require("./models/schema/Property");
@@ -18,18 +17,16 @@ const Cancellation = require("./models/schema/cancellation");
 const notification=require("./models/schema/notification");
 
 
-// Connect to MongoDB
 connectDB();
 
-// Setup view engine (if you're using EJS pages)
+// Setup view engine
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-// ✅ Middleware
+// Middleware
 app.use(express.json()); // To parse JSON body
 app.use(express.urlencoded({ extended: true })); // For form submissions
 
-// ✅ Routes
 app.use("/api/users", require("./routes/user.routes"));
 app.use("/api/admins", require("./routes/admin.routes"));
 app.use("/api/caretakers", require("./routes/caretaker.routes"));
@@ -42,19 +39,18 @@ app.use("/api/cancellations", require("./routes/cancellation.routes"));
 app.use("/api/cities", require("./routes/city.routes"));
 app.use("/api/notifications", require("./routes/notification.routes"));
 
-// ✅ Root endpoint
+// Root endpoint
 app.get("/", (req, res) => {
   res.send("Server is working!");
 });
 
-// ✅ Global error handler (optional but good practice)
+// Global error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: "Something went wrong", error: err.message });
 });
 
-// ✅ Start the server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

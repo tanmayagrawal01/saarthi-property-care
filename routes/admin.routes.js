@@ -3,7 +3,7 @@ const router = express.Router();
 const AdminController = require('../controllers/admin.controller');
 const auth = require('../middlewares/auth.middleware');
 
-// 🟢 Register admin (superadmin only)
+// Register admin (superadmin only)
 router.post(
   '/register',
   auth.authenticate,
