@@ -12,7 +12,7 @@ exports.createBooking = async (req, res) => {
       return res.status(400).json({ message: 'Missing required booking fields' });
     }
 
-    // Conflict detection (double booking)
+    // Conflict detection
     const conflict = await Booking.findOne({
       caretaker_id,
       date,

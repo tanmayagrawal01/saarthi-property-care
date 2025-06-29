@@ -46,7 +46,7 @@ exports.registerCaretaker = async (req, res) => {
   }
 };
 
-// ✅ Login caretaker
+// Login caretaker
 exports.loginCaretaker = async (req, res) => {
   try {
     const { phone, password } = req.body;
@@ -111,7 +111,7 @@ exports.updateAvailability = async (req, res) => {
   }
 };
 
-// ✅ Admin: get all caretakers
+// Admin: get all caretakers
 exports.getAllCaretakers = async (req, res) => {
   try {
     const caretakers = await Caretaker.find({ isDeleted: false })
@@ -124,7 +124,7 @@ exports.getAllCaretakers = async (req, res) => {
   }
 };
 
-// ✅ Admin: verify caretaker background
+// Admin: verify caretaker background
 exports.verifyBackground = async (req, res) => {
   try {
     const { id } = req.params;
@@ -144,7 +144,7 @@ exports.verifyBackground = async (req, res) => {
   }
 };
 
-// ✅ Public: get caretaker by ID
+// Public: get caretaker by ID
 exports.getCaretakerById = async (req, res) => {
   try {
     const caretaker = await Caretaker.findById(req.params.id)

@@ -10,13 +10,11 @@ async function connectDB() {
     }
 
     await mongoose.connect(MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
     });
 
-    console.log("✅ Connected to MongoDB Atlas");
+    console.log("Connected to DB");
   } catch (err) {
-    console.error("❌ DB connection error:", err.message);
+    console.error("DB connection error:", err.message);
   }
 }
 

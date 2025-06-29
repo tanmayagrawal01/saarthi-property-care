@@ -106,7 +106,7 @@ exports.cancelSubscription = async (req, res) => {
   }
 };
 
-// ✅ 5. Admin: Get all subscriptions
+// Admin: Get all subscriptions
 exports.getAllSubscriptions = async (req, res) => {
   try {
     const subscriptions = await Subscription.find({ isDeleted: false })
@@ -119,7 +119,7 @@ exports.getAllSubscriptions = async (req, res) => {
   }
 };
 
-// ✅ 6. Admin: Update subscription status
+// 6. Admin: Update subscription status
 exports.updateSubscriptionStatus = async (req, res) => {
   try {
     const { status } = req.body;
