@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const ServiceController = require('../controllers/service.controller');
-const auth = require('../middlewares/auth.middleware');
+const auth = require('../auth/auth.middleware');
 
 // Get all active services (public)
 router.get('/', ServiceController.getAllActiveServices);

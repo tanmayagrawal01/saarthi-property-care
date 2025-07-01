@@ -70,12 +70,10 @@ exports.getSubscriptionById = async (req, res) => {
     }
 
     // Only allow owner of the subscription or admin to view it
-    if (
-      req.user.user_type === 'property_owner' &&
-      !subscription.user_id.equals(req.user._id)
-    ) {
-      return res.status(403).json({ message: 'Access denied' });
-    }
+    if (req.user.role !== 'admin' && !subscription.user_id.equals(req.user._id)) {
+  return res.status(403).json({ message: 'Access denied' });
+}
+
 
     res.json(subscription);
   } catch (err) {

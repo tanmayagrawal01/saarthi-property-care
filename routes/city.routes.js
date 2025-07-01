@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const CityController = require('../controllers/city.controller');
-const auth = require('../middlewares/auth.middleware');
+const auth = require('../auth/auth.middleware');
 
 // 🌐 Public route to get all cities
 router.get('/', CityController.getAllCities);

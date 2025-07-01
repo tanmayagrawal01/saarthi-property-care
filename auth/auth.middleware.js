@@ -14,7 +14,9 @@ exports.authenticate = async (req, res, next) => {
     }
 
     const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const { verifyAccessToken } = require('./token.utils');
+    const decoded = verifyAccessToken(token);
+
 
     let user = null;
 

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const BookingController = require('../controllers/booking.controller');
-const auth = require('../middlewares/auth.middleware');
+const auth = require('../auth/auth.middleware');
 
 // Create a new booking (owner only)
 router.post(
@@ -66,5 +66,13 @@ router.delete(
   auth.verifyAdmin,
   BookingController.softDeleteBooking
 );
+
+router.get(
+  '/admin/all',
+  auth.authenticate,
+  auth.verifyAdmin,
+  BookingController.getAllBookings
+);
+
 
 module.exports = router;

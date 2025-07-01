@@ -23,13 +23,6 @@ const UserSchema = new mongoose.Schema(
       required: true
     },
 
-    user_type: {
-      type: String,
-      enum: ['property_owner', 'caretaker'],
-      default: 'property_owner',
-      required: true
-    },
-
     profile_photo_url: {
       type: String
     },

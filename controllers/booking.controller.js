@@ -200,3 +200,13 @@ exports.softDeleteBooking = async (req, res) => {
     res.status(500).json({ message: 'Failed to delete booking', error: err.message });
   }
 };
+
+// GET /admin/all
+exports.getAllBookings = async (req, res) => {
+  try {
+    const bookings = await Booking.find().populate('propertyId ownerId caretakerId');
+    res.status(200).json({ bookings });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch bookings', error: error.message });
+  }
+};

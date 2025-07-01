@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const CancellationController = require('../controllers/cancellation.controller');
-const auth = require('../middlewares/auth.middleware');
+const auth = require('../auth/auth.middleware');
 
 // Create a cancellation request
 router.post(

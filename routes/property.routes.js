@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const PropertyController = require('../controllers/property.controller');
-const auth = require('../middlewares/auth.middleware');
+const auth = require('../auth/auth.middleware');
 
 // All routes below require authentication
 router.use(auth.authenticate);

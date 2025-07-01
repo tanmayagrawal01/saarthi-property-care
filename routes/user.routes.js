@@ -3,16 +3,16 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/schema/User');
-const auth = require('../middlewares/auth.middleware');
+const auth = require('../auth/auth.middleware');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'default_secret_key';
 
-// User Registration
+// ✅ User Registration (Only property owners now)
 router.post('/register', async (req, res) => {
   try {
-    const { name, email, phone, password, user_type } = req.body;
+    const { name, email, phone, password } = req.body;
 
-    if (!name || !email || !phone || !password || !user_type) {
+    if (!name || !email || !phone || !password) {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
@@ -27,8 +27,7 @@ router.post('/register', async (req, res) => {
       name,
       email,
       phone,
-      password_hash: hashedPassword,
-      user_type
+      password_hash: hashedPassword
     });
 
     await user.save();
@@ -39,6 +38,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
+// 🔐 Login
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -46,13 +46,14 @@ router.post('/login', async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'Invalid credentials' });
     }
+
     const match = await bcrypt.compare(password, user.password_hash);
     if (!match) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     const token = jwt.sign(
-      { _id: user._id, role: user.user_type === 'property_owner' ? 'owner' : 'caretaker' },
+      { _id: user._id, role: 'owner' }, // 🔐 role is hardcoded as owner now
       JWT_SECRET,
       { expiresIn: '7d' }
     );
@@ -67,8 +68,7 @@ router.post('/login', async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        phone: user.phone,
-        user_type: user.user_type
+        phone: user.phone
       }
     });
   } catch (err) {
@@ -82,8 +82,7 @@ router.get('/me', auth.authenticate, async (req, res) => {
     _id: req.user._id,
     name: req.user.name,
     email: req.user.email,
-    phone: req.user.phone,
-    user_type: req.user.user_type
+    phone: req.user.phone
   });
 });
 

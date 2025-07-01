@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const PaymentController = require('../controllers/payment.controller');
-const auth = require('../middlewares/auth.middleware');
+const auth = require('../auth/auth.middleware');
 
 // Create a payment (owner only, must be authenticated)
 router.post(
