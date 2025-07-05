@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Caretaker Registration</title>
+</head>
+<body>
+  <h1>Register as a Caretaker</h1>
+  <form action="/api/caretakers/register" method="POST">
+    <input name="name" placeholder="Name" required />
+    <input name="email" placeholder="Email" type="email" />
+    <input name="phone" placeholder="Phone" required />
+    <input name="password" placeholder="Password" type="password" required />
+    <input name="city_name" placeholder="City Name" required />
+    <input name="experience_years" placeholder="Experience (years)" type="number" />
+    <input name="aadhaar_number" placeholder="Aadhaar Number" />
+    <input name="aadhaar_image_url" placeholder="Aadhaar Image URL" />
+    <input name="selfie_with_aadhaar_url" placeholder="Selfie with Aadhaar URL" required />
+    <button type="submit">Register</button>
+  </form>
+</body>
+</html>

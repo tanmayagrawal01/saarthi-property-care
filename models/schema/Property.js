@@ -25,7 +25,7 @@ const PropertySchema = new mongoose.Schema(
     },
     property_type: {
       type: String,
-      enum: ['hotel', 'guesthouse', 'airbnb', 'pg', 'villa', 'homestay'],
+      enum: ['hotel', 'guesthouse', 'airbnb', 'pg', 'villa', 'homestay','apartment'],
       required: true
     },
     photos: {

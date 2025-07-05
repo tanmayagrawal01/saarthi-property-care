@@ -6,7 +6,8 @@ const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 const path = require("path");
 const connectDB = require("./config/db");
-
+const viewRoutes = require('./routes/views.routes');
+app.use('/', viewRoutes);
 const City = require("./models/schema/City");
 const Caretaker = require("./models/schema/Caretaker");
 const Property = require("./models/schema/Property");
@@ -29,8 +30,12 @@ app.set("view engine", "ejs");
 app.use(express.json()); // To parse JSON body
 app.use(express.urlencoded({ extended: true })); // For form submissions
 
+const adminRoutes = require('./routes/admin.routes');
+// 🔁 Mount the same routes under both paths
+app.use('/admins', adminRoutes);       // for EJS browser views
+app.use('/api/admins', adminRoutes);   // for API/Postman access
+
 app.use("/api/users", require("./routes/user.routes"));
-app.use("/api/admins", require("./routes/admin.routes"));
 app.use("/api/caretakers", require("./routes/caretaker.routes"));
 app.use("/api/properties", require("./routes/property.routes"));
 app.use("/api/bookings", require("./routes/booking.routes"));

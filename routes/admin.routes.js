@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const AdminController = require('../controllers/admin.controller');
 const auth = require('../auth/auth.middleware');
+const Admin = require('../models/schema/Admin');
 
 // Register admin (superadmin only)
 router.post(
@@ -11,16 +12,40 @@ router.post(
   AdminController.registerAdmin
 );
 
-// Admin login
+
+// router.get(
+//   '/profile',
+//   auth.authenticate,
+//   auth.verifyAdmin,
+//   async (req, res) => {
+//     try {
+//       const admin = await Admin.findById(req.user._id).select('-password_hash');
+//       if (!admin) return res.status(404).render('404');
+//       res.render('admin_profile', { admin });
+//     } catch (err) {
+//       console.error("Profile error:", err);
+//       res.status(500).send("Internal Server Error");
+//     }
+//   }
+// );
+
+// 🧾 EJS login page (only for browser)
+router.get('/login', (req, res) => res.render('admin_login'));
+
+// 🔐 Login logic (used by both /admins/login and /api/admins/login)
 router.post('/login', AdminController.loginAdmin);
 
-// Get own profile
-router.get(
-  '/me',
-  auth.authenticate,
-  auth.verifyAdmin,
-  AdminController.getMyProfile
-);
+// 👤 Admin profile (API or EJS)
+router.get('/profile', auth.authenticate, auth.verifyAdmin, AdminController.getMyProfile);
+
+
+// // Get own profile
+// router.get(
+//   '/profile',
+//   auth.authenticate,
+//   auth.verifyAdmin,
+//   AdminController.getMyProfile
+// );
 
 // Superadmin: get all admins
 router.get(

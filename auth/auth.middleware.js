@@ -8,36 +8,43 @@ const JWT_SECRET = process.env.JWT_SECRET;
 // Middleware to authenticate and attach user
 exports.authenticate = async (req, res, next) => {
   try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    let token;
+
+    // ✅ Try Authorization header (Postman, React, etc.)
+    if (req.headers.authorization?.startsWith('Bearer ')) {
+      token = req.headers.authorization.split(' ')[1];
+    }
+
+    // ✅ Then try accessToken from cookie (browser login)
+    if (!token && req.cookies?.accessToken) {
+      token = req.cookies.accessToken;
+    }
+
+    if (!token) {
       return res.status(401).json({ message: 'Authorization token missing' });
     }
 
-    const token = authHeader.split(' ')[1];
-    const { verifyAccessToken } = require('./token.utils');
-    const decoded = verifyAccessToken(token);
+    const decoded = jwt.verify(token, JWT_SECRET);
 
-
-    let user = null;
-
+    let user;
     if (decoded.role === 'caretaker') {
       user = await Caretaker.findById(decoded._id);
     } else if (decoded.role === 'owner') {
       user = await User.findById(decoded._id);
-    } else if (decoded.role === 'admin' || decoded.role === 'superadmin') {
+    } else {
       user = await Admin.findById(decoded._id);
     }
 
     if (!user || user.isDeleted) {
-      return res.status(401).json({ message: 'User not found or inactive' });
+      return res.status(401).json({ message: 'User not found or deleted' });
     }
 
-    console.log("Authenticated:", { id: user._id, role: decoded.role });
     req.user = user;
-    req.user.role = decoded.role; // attach role from token
+    req.user.role = decoded.role;
     next();
   } catch (err) {
-    return res.status(401).json({ message: 'Invalid or expired token', error: err.message });
+    console.error('Auth error:', err);
+    return res.status(401).json({ message: 'Invalid or expired token' });
   }
 };
 
@@ -53,7 +60,7 @@ exports.verifyOwner = (req, res, next) => {
 };
 
 exports.verifyAdmin = (req, res, next) => {
-  if (req.user?.role === 'admin' || req.user?.role === 'superadmin') return next();
+  if (req.user?.role === 'moderator' || req.user?.role === 'superadmin') return next();
   return res.status(403).json({ message: 'Access denied: Admin only' });
 };
 

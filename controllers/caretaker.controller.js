@@ -10,14 +10,23 @@ exports.registerCaretaker = async (req, res) => {
   try {
     const {
       name, email, phone, password,
-      location_city_id, experience_years,
+      city_name, experience_years,
       aadhaar_number, aadhaar_image_url,
       selfie_with_aadhaar_url
     } = req.body;
 
-    if (!name || !phone || !password || !location_city_id || !selfie_with_aadhaar_url) {
+    if (!name || !phone || !password || !city_name || !selfie_with_aadhaar_url) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
+
+    // Find city ID from city name
+    const City = require('../models/schema/City');
+    const cityDoc = await City.findOne({ name: city_name });
+    if (!cityDoc) {
+      return res.status(404).json({ message: 'City not found' });
+    }
+    const location_city_id = cityDoc._id;
+
 
     const existing = await Caretaker.findOne({ $or: [{ email }, { phone }] });
     if (existing) {
