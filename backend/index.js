@@ -29,7 +29,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.json()); // To parse JSON body
 app.use(express.urlencoded({ extended: true })); // For form submissions
 
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 const adminRoutes = require('./routes/admin.routes');
@@ -53,10 +53,6 @@ app.use("/api/notifications", require("./routes/notification.routes"));
 app.get('/', (req, res) => {
   res.render('home'); // views/home.ejs
 });
-
-// app.get("/", (req, res) => {
-//   res.send("Server is working!");
-// });
 
 // Global error handler
 app.use((err, req, res, next) => {
