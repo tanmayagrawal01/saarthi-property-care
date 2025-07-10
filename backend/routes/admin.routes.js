@@ -30,7 +30,7 @@ router.post(
 // );
 
 // 🧾 EJS login page (only for browser)
-router.get('/login', (req, res) => res.render('admin_login'));
+router.get('/login', (req, res) => res.render('login'));
 
 // 🔐 Login logic (used by both /admins/login and /api/admins/login)
 router.post('/login', AdminController.loginAdmin);

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - PropertyCare</title>
+  <link rel="stylesheet" href="/login.css">
+</head>
+<body>
+
+  <div class="container">
+    <div class="logo">🏠</div>
+    <div class="title">PropertyCare</div>
+    <div class="subtitle">Your Property, Our Care</div>
+
+    <!-- Toggle Role Buttons -->
+    <div class="toggle-buttons">
+      <button id="btn-owner" onclick="switchRole('owner')" class="active">House Owner</button>
+      <button id="btn-caretaker" onclick="switchRole('caretaker')">Caretaker</button>
+      <button id="btn-admin" onclick="switchRole('admin')">Admin</button>
+    </div>
+
+    <!-- Owner Form -->
+    <form id="form-owner" class="active" method="POST" action="/users/login">
+      <label>Email</label>
+      <input type="email" name="email" placeholder="Enter your email" required />
+      <label>Password</label>
+      <input type="password" name="password" placeholder="Enter your password" required />
+      <button class="btn" type="submit">Login</button>
+    </form>
+
+    <!-- Caretaker Form -->
+    <form id="form-caretaker" method="POST" action="/caretakers/login">
+      <label>Phone Number</label>
+      <input type="tel" name="phone" placeholder="Enter your phone number" required />
+      <label>Password</label>
+      <input type="password" name="password" placeholder="Enter your password" required />
+      <button class="btn green" type="submit">Login</button>
+    </form>
+
+    <!-- Admin Form -->
+    <form id="form-admin" method="POST" action="/admins/login">
+        <% if (typeof error !=='undefined' ) { %>
+        <p style="color:red">
+            <%= error %>
+        </p>
+        <% } %>
+      <label>Email</label>
+      <input type="email" name="email" placeholder="Enter admin email" required />
+      <label>Password</label>
+      <input type="password" name="password" placeholder="Enter admin password" required />
+      <button class="btn black" type="submit">Login</button>
+    </form>
+  </div>
+
+  <script>
+    function switchRole(role) {
+      const roles = ['owner', 'caretaker', 'admin'];
+      roles.forEach(r => {
+        document.getElementById(`btn-${r}`).classList.remove("active");
+        document.getElementById(`form-${r}`).classList.remove("active");
+      });
+      document.getElementById(`btn-${role}`).classList.add("active");
+      document.getElementById(`form-${role}`).classList.add("active");
+    }
+
+    window.onload = () => switchRole('owner');
+  </script>
+</body>
+</html>

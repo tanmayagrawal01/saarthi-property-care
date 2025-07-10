@@ -1,0 +1,105 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #e0ecff, #f0f4ff);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+.container {
+  background: white;
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+.logo {
+  font-size: 36px;
+  text-align: center;
+  color: #3b82f6;
+}
+.title {
+  text-align: center;
+  font-size: 24px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+.toggle-buttons {
+  display: flex;
+  justify-content: space-between;
+  background: #f0f0f0;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.toggle-buttons button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-weight: bold;
+  color: #555;
+  transition: 0.3s;
+}
+.toggle-buttons button.active {
+  background: white;
+  border: 1px solid #ccc;
+  color: #000;
+}
+form {
+  display: none;
+}
+form.active {
+  display: block;
+}
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: bold;
+}
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+.btn {
+  width: 100%;
+  padding: 12px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn:hover {
+  background: #2563eb;
+}
+.btn.green {
+  background: #10b981;
+}
+.btn.green:hover {
+  background: #059669;
+}
+.btn.black {
+  background: black;
+}
+.btn.black:hover {
+  background: #333;
+}

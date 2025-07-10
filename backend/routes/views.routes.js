@@ -14,12 +14,12 @@ router.get('/caretakers/register', (req, res) => {
 
 // Admin Login Page
 router.get('/admins/login', (req, res) => {
-  res.render('admin_login'); // views/admin_login.ejs
+  res.render('login'); // views/admin_login.ejs
 });
 
 // Owner Login Page
 router.get('/users/login', (req, res) => {
-  res.render('user_login'); // views/user_login.ejs
+  res.render('login'); // views/user_login.ejs
 });
 
 router.get('/users/dashboard', auth.authenticate, auth.verifyOwner, (req, res) => {

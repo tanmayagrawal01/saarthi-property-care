@@ -67,7 +67,7 @@ exports.loginAdmin = async (req, res) => {
       if (isApiRequest) {
         return res.status(404).json({ message: 'Admin not found' });
       } else {
-        return res.status(404).render('admin_login', { error: 'Admin not found' });
+        return res.status(404).render('login', { error: 'Admin not found' });
       }
     }
 
@@ -79,7 +79,7 @@ exports.loginAdmin = async (req, res) => {
       if (isApiRequest) {
         return res.status(401).json({ message: 'Invalid email or password' });
       } else {
-        return res.status(401).render('admin_login', { error: 'Invalid email or password' });
+        return res.status(401).render('login', { error: 'Invalid email or password' });
       }
     }
 
@@ -114,7 +114,7 @@ exports.loginAdmin = async (req, res) => {
     if (isApiRequest) {
       return res.status(500).json({ message: 'Login failed', error: err.message });
     } else {
-      return res.status(500).render('admin_login', { error: 'Server error during login' });
+      return res.status(500).render('admin', { error: 'Server error during login' });
     }
   }
 };
