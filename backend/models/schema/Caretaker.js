@@ -38,7 +38,10 @@ const CaretakerSchema = new mongoose.Schema(
       default: 0,
       min: 0
     },
-
+    profilepicture_url: {
+      type: String,
+      default: "https://www.pngmart.com/files/23/Profile-PNG-Photo.png"
+    },
     // Aadhaar verification-related
     aadhaar_number: {
       type: String,

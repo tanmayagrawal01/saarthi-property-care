@@ -4,21 +4,32 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/schema/User');
 const auth = require('../auth/auth.middleware');
-
+const City = require('../models/schema/City');
 const JWT_SECRET = process.env.JWT_SECRET || 'default_secret_key';
+
+router.get('/register', async (req, res) => {
+  try {
+    const cities = await City.find({ isDeleted: false });
+    res.render('user_register', { cities, error: null }); // ✅ pass 'error'
+  } catch (err) {
+    res.status(500).render('user_register', { error: 'Failed to load cities', cities: [] });
+  }
+});
+
+
 
 // User Registration (Only property owners now)
 router.post('/register', async (req, res) => {
   try {
-    const { name, email, phone, password } = req.body;
+    const { name, email, phone, password, address, profile_photo_url, city_id } = req.body;
 
     if (!name || !email || !phone || !password) {
-      return res.status(400).json({ message: 'All fields are required' });
+      return res.status(400).render('user_register', { error: 'All required fields must be filled', cities: [] });
     }
 
     const existing = await User.findOne({ email });
     if (existing) {
-      return res.status(409).json({ message: 'User already exists with this email' });
+      return res.status(409).render('user_register', { error: 'User already exists with this email', cities: [] });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -27,16 +38,21 @@ router.post('/register', async (req, res) => {
       name,
       email,
       phone,
-      password_hash: hashedPassword
+      password_hash: hashedPassword,
+      address,
+      profile_photo_url,
+      city_id
     });
 
     await user.save();
 
-    res.status(201).json({ message: 'User registered successfully' });
+    res.redirect('/users/login'); // Redirect to login after successful registration
   } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
+    console.error(err);
+    res.status(500).render('user_register', { error: 'Server error during registration', cities: [] });
   }
 });
+
 
 // Owner login route
 router.post('/login', async (req, res) => {

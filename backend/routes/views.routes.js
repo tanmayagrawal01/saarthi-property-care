@@ -25,10 +25,6 @@ router.get('/users/login', (req, res) => {
 router.get('/users/dashboard', auth.authenticate, auth.verifyOwner, (req, res) => {
   res.render('user_dashboard', { user: req.user });
 });
-// 404 Page (Optional)
-// router.get('*', (req, res) => {
-//   res.status(404).render('404'); // views/404.ejs
-// });
 
 // Admin registration page (for superadmin only)
 router.get('/admins/register', (req, res) => {

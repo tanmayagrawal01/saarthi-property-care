@@ -61,6 +61,10 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Something went wrong", error: err.message });
 });
 
+app.use((req, res) => {
+  res.status(404).render('404'); // views/404.ejs
+});
+
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

@@ -24,7 +24,8 @@ const UserSchema = new mongoose.Schema(
     },
 
     profile_photo_url: {
-      type: String
+      type: String,
+      default: "https://www.pngmart.com/files/23/Profile-PNG-Photo.png"
     },
 
     email_verified: {
