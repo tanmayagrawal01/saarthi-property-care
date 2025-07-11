@@ -3,77 +3,114 @@
 <head>
   <meta charset="UTF-8">
   <title>User Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      padding: 40px;
-      background-color: #f5f7fa;
-      color: #333;
+      background-color: #f4f6f9;
+      font-family: 'Segoe UI', sans-serif;
     }
-    .container {
-      max-width: 800px;
-      margin: auto;
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #2980b9;
     }
-    h1 {
-      color: #2c3e50;
+    .badge-status {
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 8px;
     }
-    ul {
-      list-style: none;
-      padding-left: 0;
+    .badge.active {
+      background-color: #2ecc71;
+      color: white;
     }
-    li {
-      margin: 10px 0;
-    }
-    a {
-      text-decoration: none;
-      color: #2980b9;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    .info {
-      margin-top: 20px;
-      background-color: #ecf0f1;
-      padding: 15px;
-      border-radius: 5px;
-    }
-    .logout-button {
-      margin-top: 20px;
-      display: inline-block;
-      padding: 10px 15px;
+    .badge.blocked {
       background-color: #e74c3c;
       color: white;
-      border-radius: 5px;
-      text-decoration: none;
     }
-    .logout-button:hover {
-      background-color: #c0392b;
+    .card:hover {
+      background-color: #eaf1ff;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Welcome, <%= user.name %>!</h1>
-
-    <div class="info">
-      <p><strong>Email:</strong> <%= user.email %></p>
-      <p><strong>Phone:</strong> <%= user.phone %></p>
+  <div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="d-flex align-items-center gap-3">
+        <img src="<%= user.profile_photo_url || '/default-avatar.png' %>" class="avatar" alt="User Avatar">
+        <div>
+          <h2 class="mb-1">Welcome, <%= user.name %></h2>
+          <div>
+            <span class="badge badge-status <%= user.status %>"><%= user.status.toUpperCase() %></span>
+            <% if (user.email_verified) { %>
+              <span class="badge bg-primary">Email Verified</span>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      <form action="/users/logout" method="POST">
+        <button class="btn btn-danger">Logout</button>
+      </form>
     </div>
 
-    <h3>Dashboard Menu</h3>
-    <ul>
-      <li><a href="/properties">🏠 My Properties</a></li>
-      <li><a href="/bookings">📅 My Bookings</a></li>
-      <li><a href="/services">🛠️ Service Requests</a></li>
-    </ul>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="card p-3">
+          <h5>📧 Email</h5>
+          <p><%= user.email %></p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card p-3">
+          <h5>📱 Phone</h5>
+          <p><%= user.phone %></p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card p-3">
+          <h5>📍 Address</h5>
+          <p><%= user.address || 'Not provided' %></p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card p-3">
+          <h5>🕒 Joined</h5>
+          <p><%= new Date(user.createdAt).toDateString() %></p>
+        </div>
+      </div>
+    </div>
 
-    <form action="/users/logout" method="POST">
-      <button type="submit" class="logout-button">Logout</button>
-    </form>
+    <hr class="my-4">
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 p-3 shadow-sm">
+          <h5>🏠 My Properties</h5>
+          <p>Manage your listed properties.</p>
+          <a href="/properties" class="btn btn-outline-primary">Go to Properties</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 p-3 shadow-sm">
+          <h5>📅 My Bookings</h5>
+          <p>Track your bookings and schedules.</p>
+          <a href="/bookings" class="btn btn-outline-primary">Go to Bookings</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 p-3 shadow-sm">
+          <h5>🛠️ Service Requests</h5>
+          <p>Check your submitted service issues.</p>
+          <a href="/services" class="btn btn-outline-primary">Go to Services</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-5">
+      <a href="/users/edit-profile" class="btn btn-secondary">Edit Profile</a>
+      <a href="/users/change-password" class="btn btn-warning">Change Password</a>
+    </div>
   </div>
 </body>
 </html>

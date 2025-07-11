@@ -49,7 +49,7 @@ router.post('/login', async (req, res) => {
       const error = { message: 'Invalid email or password' };
       return isApi
         ? res.status(404).json(error)
-        : res.status(404).render('user_login', { error: error.message });
+        : res.status(404).render('login', { error: error.message });
     }
 
     const match = await bcrypt.compare(password, user.password_hash);
@@ -57,7 +57,7 @@ router.post('/login', async (req, res) => {
       const error = { message: 'Invalid email or password' };
       return isApi
         ? res.status(401).json(error)
-        : res.status(401).render('user_login', { error: error.message });
+        : res.status(401).render('login', { error: error.message });
     }
 
     const token = jwt.sign({ _id: user._id, role: 'owner' }, JWT_SECRET, {
@@ -96,7 +96,7 @@ router.post('/login', async (req, res) => {
     const errorMessage = 'Server error';
     return isApi
       ? res.status(500).json({ message: errorMessage, error: err.message })
-      : res.status(500).render('user_login', { error: errorMessage });
+      : res.status(500).render('login', { error: errorMessage });
   }
 });
 

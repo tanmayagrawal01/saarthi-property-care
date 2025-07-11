@@ -1,0 +1,200 @@
+/* caretaker_dashboard.css */
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+h2 {
+  font-size: 28px;
+  text-align: center;
+  color: #ae5470;
+  background-color: antiquewhite;
+  padding: 1rem;
+  margin-bottom: 24px;
+  border: 1px solid #cbb4a0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.card-group {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.left-column {
+  flex: 1;
+  min-width: 280px;
+}
+
+.right-grid {
+  flex: 2;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  min-width: 300px;
+}
+
+@media (max-width: 768px) {
+  .card-group {
+    flex-direction: column;
+  }
+
+  .right-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: #fff;
+  padding: 24px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(174, 84, 112, 0.06);
+  border: 1px solid #f0dfd6;
+  min-height: 250px;
+  transition: 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.mini-title {
+  font-size: 16px;
+  color: #ae5470;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.profile {
+  text-align: center;
+}
+
+.profile img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #ae5470;
+  object-fit: cover;
+  margin-bottom: 14px;
+}
+
+.status {
+  color: #24b26b;
+  font-weight: 600;
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+.profile-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.profile-buttons button {
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.profile-buttons button:first-child {
+  background: #ae5470;
+  color: white;
+  border: none;
+}
+
+.profile-buttons button:last-child {
+  background: white;
+  border: 1px solid #ae5470;
+  color: #ae5470;
+}
+
+.settings ul, .checklist ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.settings li, .checklist label {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.settings a {
+  color: #ae5470;
+  text-decoration: none;
+}
+
+.task-input-row {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+}
+
+#new-task {
+  flex: 1;
+  padding: 6px;
+  font-size: 13px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.add-btn {
+  padding: 6px 10px;
+  font-size: 13px;
+  background: #ae5470;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: #ae5470;
+  font-size: 14px;
+  margin-left: 6px;
+  cursor: pointer;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+#notification-page, #schedule-history-page {
+  display: none;
+  background: #fff6ed;
+  padding: 24px;
+  margin-top: 24px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(174, 84, 112, 0.08);
+}
+
+#notification-page h3, #schedule-history-page h3 {
+  font-size: 18px;
+  color: #ae5470;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+ul {
+  font-size: 13px;
+  padding-left: 20px;
+  line-height: 1.6;
+}
+
+button:hover {
+  background-color: #933a5b;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}

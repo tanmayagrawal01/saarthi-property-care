@@ -1,32 +1,119 @@
-<!-- views/admin_register.ejs -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Register Admin</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-container {
+      background: #ffffff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      max-width: 90%;
+    }
+
+    h1 {
+      margin-bottom: 25px;
+      font-size: 24px;
+      color: #333;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: #444;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 18px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: border 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: #007BFF;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .error-message {
+      color: red;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-  <h1>Register a New Admin</h1>
-  <% if (error) { %>
-    <p style="color: red;"><%= error %></p>
-  <% } %>
+  <div class="form-container">
+    <h1>Register a New Admin</h1>
+    
+    <% if (error) { %>
+      <div class="error-message"><%= error %></div>
+    <% } %>
 
-  <form method="POST" action="/admins/register">
-    <label>Name:</label>
-    <input type="text" name="name" required /><br/>
+    <form method="POST" action="/admins/register" onsubmit="return validateForm()">
+      <label for="name">Name:</label>
+      <input type="text" name="name" id="name" required />
 
-    <label>Email:</label>
-    <input type="email" name="email" required /><br/>
+      <label for="email">Email:</label>
+      <input type="email" name="email" id="email" required />
 
-    <label>Password:</label>
-    <input type="password" name="password" required /><br/>
+      <label for="password">Password:</label>
+      <input type="password" name="password" id="password" required minlength="6" />
 
-    <label>Role:</label>
-    <select name="role" required>
-      <option value="moderator">Moderator</option>
-      <option value="superadmin">Superadmin</option>
-    </select><br/>
+      <label for="role">Role:</label>
+      <select name="role" id="role" required>
+        <option value="">-- Select Role --</option>
+        <option value="moderator">Moderator</option>
+        <option value="superadmin">Superadmin</option>
+      </select>
 
-    <button type="submit">Register</button>
-  </form>
+      <button type="submit">Register</button>
+    </form>
+  </div>
+
+  <script>
+    function validateForm() {
+      const password = document.getElementById('password').value;
+      if (password.length < 6) {
+        alert('Password must be at least 6 characters long.');
+        return false;
+      }
+      return true;
+    }
+  </script>
 </body>
 </html>

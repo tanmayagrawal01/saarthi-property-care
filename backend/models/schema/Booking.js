@@ -27,11 +27,11 @@ const BookingSchema = new mongoose.Schema(
     guest: {
       name: { type: String, required: true },
       email: { type: String },
-      phone: {
-        type: String,
-        match: /^[6-9]\d{9}$/,
-        required: true
-      }
+      phone: { type: String, required: true, match: /^[6-9]\d{9}$/ },
+      gender: { type: String, enum: ['male', 'female', 'other'] },
+      id_number: { type: String }, // Aadhaar or passport
+      id_type: { type: String, enum: ['aadhaar', 'passport', 'other'] },
+      totalpeople: { type: Number, min: 1 }
     },
 
     date: {
@@ -110,7 +110,7 @@ const BookingSchema = new mongoose.Schema(
         changed_by: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
       }
     ],
-    
+
     slug: {
       type: String
     },

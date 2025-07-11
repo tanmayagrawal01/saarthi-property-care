@@ -39,6 +39,7 @@ app.use('/api/admins', adminRoutes);   // for API/Postman access
 
 app.use("/users", require("./routes/user.routes"));
 app.use("/api/users", require("./routes/user.routes"));
+app.use("/caretakers", require("./routes/caretaker.routes"));
 app.use("/api/caretakers", require("./routes/caretaker.routes"));
 app.use("/api/properties", require("./routes/property.routes"));
 app.use("/api/bookings", require("./routes/booking.routes"));

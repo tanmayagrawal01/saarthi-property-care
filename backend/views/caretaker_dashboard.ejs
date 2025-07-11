@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= caretaker.name %> - Caretaker Dashboard</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Emilys+Candy&display=swap" rel="stylesheet">
+
+  <!-- Optional external CSS if you have it -->
+  <link rel="stylesheet" href="/caretaker_dashboard.css" />
+</head>
+<body>
+
+<h2>Caretaker Dashboard</h2>
+
+<div class="card-group">
+
+  <!-- Profile section -->
+  <div class="left-column">
+    <div class="card profile">
+      <img src="https://www.pngmart.com/files/23/Profile-PNG-Photo.png" alt="<%= caretaker.name %>" />
+      <h3 style="font-size: 22px;"><%= caretaker.name %></h3>
+      <p style="font-size: 15px;">
+        Caretaker • <%= caretaker.location_city_id?.name  || 'Unknown City' %><br>
+        Languages: English, Hindi
+      </p>
+
+      <div class="status">
+        <% if (caretaker.is_available) { %>
+          🟢 Available
+        <% } else { %>
+          🔴 Unavailable
+        <% } %>
+      </div>
+
+      <div class="profile-buttons">
+        <button>Edit Profile</button>
+        <form action="/caretakers/logout" method="POST" style="display: inline;">
+          <button type="submit">Logout</button>
+        </form>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <a href="#" style="font-size:14px; color:#ae5470; text-decoration:none;">Change Password</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right grid for schedule, performance, etc. -->
+  <div class="right-grid">
+
+    <!-- My Schedule -->
+    <div class="card clickable" onclick="openScheduleHistory()">
+      <div class="mini-title">📅 My Schedule</div>
+      <% if (schedule.length > 0) { %>
+        <% schedule.forEach(s => { %>
+          <p><strong><%= new Date(s.booking_date).toDateString() %></strong> — <%= s.start_time %> to <%= s.end_time %></p>
+          <p>Client: <%= s.guest_name %></p>
+        <% }) %>
+      <% } else { %>
+        <p>No upcoming schedules.</p>
+      <% } %>
+      <p style="font-size: 12px; color: #888;">Click to view full history</p>
+    </div>
+
+    <!-- Task Checklist -->
+    <div class="card checklist">
+      <div class="mini-title">📝 Task Checklist</div>
+      <ul id="task-list">
+        <li><label><input type="checkbox"> Cleaning <button onclick="deleteTask(this)" class="delete-btn">🗑</button></label></li>
+        <li><label><input type="checkbox"> Bathing <button onclick="deleteTask(this)" class="delete-btn">🗑</button></label></li>
+        <li><label><input type="checkbox"> Medication <button onclick="deleteTask(this)" class="delete-btn">🗑</button></label></li>
+      </ul>
+    </div>
+
+    <!-- Notifications -->
+    <div class="card clickable" onclick="showNotificationPage()">
+      <div class="mini-title">📢 Notifications</div>
+      <p>New booking confirmed</p>
+      <p>Payment received</p>
+      <p style="font-size: 12px; color: #888;">Click to view all</p>
+    </div>
+
+    <!-- Performance -->
+    <div class="card">
+      <div class="mini-title">📈 Performance</div>
+      <p>Hours Worked: <strong><%= stats.hoursWorked %></strong></p>
+      <p>Bookings Completed: <strong><%= caretaker.completed_bookings %></strong></p>
+      <p>Earnings: <strong>₹<%= stats.totalEarnings %></strong></p>
+    </div>
+
+  </div>
+</div>
+
+<!-- 📅 Schedule History Panel -->
+<div id="schedule-history-page" style="display:none">
+  <h3>📅 Full Schedule History</h3>
+  <ul>
+    <% schedule.forEach(s => { %>
+      <li><%= new Date(s.booking_date).toDateString() %> – <%= s.guest_name %> – <%= s.start_time %> to <%= s.end_time %></li>
+    <% }) %>
+  </ul>
+</div>
+
+<!-- 📢 Notifications Panel -->
+<div id="notification-page" style="display:none">
+  <h3>📢 All Notifications</h3>
+  <ul>
+    <li>Jul 14 – Booking confirmed for Meena Sharma</li>
+    <li>Jul 10 – ₹1,200 payment received</li>
+    <li>Jul 9 – Availability updated</li>
+    <li>Jul 6 – Monthly report available</li>
+    <li>Jul 1 – Bonus ₹500 awarded for 10 completed tasks</li>
+  </ul>
+</div>
+
+<!-- JavaScript Logic -->
+<script>
+  function showNotificationPage() {
+    const panel = document.getElementById('notification-page');
+    panel.style.display = 'block';
+    panel.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function openScheduleHistory() {
+    const panel = document.getElementById('schedule-history-page');
+    panel.style.display = 'block';
+    panel.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function deleteTask(button) {
+    const li = button.closest("li");
+    if (li) li.remove();
+  }
+</script>
+
+</body>
+</html>
