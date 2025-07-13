@@ -2,6 +2,11 @@ const Admin = require('../models/schema/Admin');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const JWT_SECRET = process.env.JWT_SECRET;
+const User = require('../models/schema/User');
+const Property = require('../models/schema/Property');
+const Booking = require('../models/schema/Booking');
+const Payment = require('../models/schema/Payment'); // if you store earnings in Payment
+const Caretaker = require('../models/schema/Caretaker');
 
 // Register a new admin (Superadmin only)
 exports.registerAdmin = async (req, res) => {
@@ -107,7 +112,7 @@ exports.loginAdmin = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    return res.redirect('/admins/profile');
+    return res.redirect('/admins/dashboard');
 
   } catch (err) {
     const isApiRequest = req.originalUrl.startsWith('/api/');
@@ -119,6 +124,65 @@ exports.loginAdmin = async (req, res) => {
   }
 };
 
+
+exports.renderDashboard = async (req, res) => {
+  try {
+    const admin = await Admin.findById(req.user._id).lean();
+
+    const totalUsers = await User.countDocuments({ isDeleted: false });
+    const totalProperties = await Property.countDocuments({ isDeleted: false });
+    const totalBookings = await Booking.countDocuments();
+
+    const startOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+    const monthlyEarningsAgg = await Payment.aggregate([
+      { $match: { createdAt: { $gte: startOfMonth } } },
+      { $group: { _id: null, total: { $sum: "$amount" } } }
+    ]);
+    const monthlyEarnings = monthlyEarningsAgg[0]?.total || 0;
+
+    const recentBookingsRaw = await Booking.find()
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .populate('caretaker_id')
+      .lean();
+
+    const recentBookings = recentBookingsRaw.map(b => ({
+      guest: b.guest?.name || 'Unknown Guest',
+      caretaker: b.caretaker_id?.name || 'Unknown Caretaker',
+      date: new Date(b.createdAt).toDateString()
+    }));
+
+    const topCaretakersRaw = await Caretaker.find()
+      .sort({ rating: -1 })
+      .limit(5)
+      .lean();
+
+    const topCaretakers = topCaretakersRaw.map(c => ({
+      name: c.name,
+      rating: c.rating || 0,
+      bookings: c.totalBookings || 0
+    }));
+
+    const users = await User.find({ isDeleted: false }).select('name _id').lean();
+
+    res.render('admin_dashboard', {
+      admin,
+      totalUsers,
+      totalProperties,
+      totalBookings,
+      monthlyEarnings,
+      recentBookings,
+      topCaretakers,
+      users,
+      notificationSent: req.query.notificationSent === 'true'
+    });
+
+  } catch (err) {
+    console.error('🔥 Full error:', err); // log full error
+    res.status(500).send("Internal Server Error");
+  }
+
+};
 
 // 👤 Get logged-in admin's profile
 // 👤 Get logged-in admin's profile (API or EJS)

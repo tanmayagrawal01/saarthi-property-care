@@ -31,4 +31,7 @@ router.get('/admins/register', (req, res) => {
   res.render('admin_register', { error: null });
 });
 
+// router.get('/admins/dashboard',(req,res)=>{
+//   res.render('admin_dashboard', { error : null });
+// })
 module.exports = router;

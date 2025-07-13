@@ -38,6 +38,14 @@ router.post('/login', AdminController.loginAdmin);
 // 👤 Admin profile (API or EJS)
 router.get('/profile', auth.authenticate, auth.verifyAdmin, AdminController.getMyProfile);
 
+// Admin dashboard page
+router.get(
+  '/dashboard',
+  auth.authenticate,
+  auth.verifyAdmin, // or `verifySuperAdmin` if it's for superadmins only
+  AdminController.renderDashboard
+);
+
 
 // // Get own profile
 // router.get(
